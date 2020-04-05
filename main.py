@@ -19,13 +19,34 @@ def check_login(func):
             return func(*args, **kwargs)
     return wrapper
 
+@app.route('/')
+def any_catcher():
+    return redirect(url_for('login'))
+
+@app.route('/create', methods=['GET','POST'])
+@check_login
+def create():
+    if request.method == 'POST':
+        try:
+            Donor(name=request.form['name']).save()
+        except:
+            return render_template('create.jinja2', error=f"Donor {request.form['name']} already exist!!!")
+        new_donor = Donor.select().where(Donor.name == request.form['name']).get()
+        Donation(value=request.form['donation'], donor=new_donor.id).save()
+        donations = Donation.select()
+        return render_template('donations.jinja2', msg=f"New Donor {new_donor.name} has been added successfully", donations=donations)
+    else:
+        return render_template('create.jinja2')
+
 @app.route('/view_single_donor_info')
 def single_donor_info():
     name = request.args.get("name", None)
     if not name:
         return render_template('single_donor.jinja2')
-    donor = Donor.select().where(Donor.name == name).get()
-
+    try:
+        donor = Donor.select().where(Donor.name == name).get()
+    except Donor.DoesNotExist:
+        return render_template('single_donor.jinja2', error="Donor doesn't exist!!!")
     donations = Donation.select().where(Donation.donor == donor.id)
 
     return render_template('donations.jinja2', donations=donations)
@@ -61,19 +82,19 @@ def login():
 def home():
     return redirect(url_for('all'))
 
-@app.route('/create', methods=['GET', 'POST'])
+@app.route('/add', methods=['GET', 'POST'])
 @check_login
-def create():
+def add():
     if request.method == 'POST':
         try:
             donor = Donor.select().where(Donor.name == request.form['name']).get()
         except Donor.DoesNotExist:
-            return render_template('create.jinja2', error="Donor Doesn't Exist in Database!!!")
+            return render_template('add.jinja2', error="Donor Doesn't Exist in Database!!!")
         donate = Donation(value=request.form['donation'], donor=donor.id)
         donate.save()
         return redirect(url_for('all'))
     elif request.method == 'GET':
-        return render_template('create.jinja2', session=session)
+        return render_template('add.jinja2', session=session)
 
 @app.route('/donations/')
 @check_login
