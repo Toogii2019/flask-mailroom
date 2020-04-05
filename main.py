@@ -23,12 +23,17 @@ def check_login(func):
 @check_login
 def create():
     if request.method == 'POST':
+        if not request.form['donation'] or not request.form['name']:
+            return render_template('add.jinja2', error="Please fill out all forms!")
         try:
             Donor(name=request.form['name']).save()
         except:
             return render_template('create.jinja2', error=f"Donor {request.form['name']} already exist!!!")
         new_donor = Donor.select().where(Donor.name == request.form['name']).get()
-        Donation(value=request.form['donation'], donor=new_donor.id).save()
+        try:
+            Donation(value=int(request.form['donation']), donor=new_donor.id).save()
+        except ValueError:
+            return render_template('create.jinja2', session=session, error=f"{request.form['donation']} not a valid donation amount!")
         donations = Donation.select()
         return render_template('donations.jinja2', msg=f"New Donor {new_donor.name} has been added successfully", donations=donations)
     else:
@@ -42,7 +47,7 @@ def single_donor_info():
     try:
         donor = Donor.select().where(Donor.name == name).get()
     except Donor.DoesNotExist:
-        return render_template('single_donor.jinja2', error="Donor doesn't exist!!!")
+        return render_template('single_donor.jinja2', error=f"Donor {name} doesn't exist!!!")
     donations = Donation.select().where(Donation.donor == donor.id)
 
     return render_template('donations.jinja2', donations=donations)
@@ -83,15 +88,15 @@ def home():
 def add():
     if request.method == 'POST':
         if not request.form['donation'] or not request.form['name']:
-            return render_template('add.jinja2', error="Please fill our all forms!")
+            return render_template('add.jinja2', error="Please fill out all forms!")
         try:
             donor = Donor.select().where(Donor.name == request.form['name']).get()
         except Donor.DoesNotExist:
-            return render_template('add.jinja2', error=f"Donor Doesn't Exist in Database!!!")
+            return render_template('add.jinja2', error=f"Donor {request.form['name']} Doesn't Exist in Database!!!")
         try:
             donate = Donation(value=int(request.form['donation']), donor=donor.id)
         except ValueError:
-            return render_template('add.jinja2', session=session, error="Please enter valid donation amount!")
+            return render_template('add.jinja2', session=session, error=f"{request.form['donation']} is not a valid donation amount!")
         donate.save()
         return redirect(url_for('all'))
     elif request.method == 'GET':
