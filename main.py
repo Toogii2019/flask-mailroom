@@ -82,11 +82,16 @@ def home():
 @check_login
 def add():
     if request.method == 'POST':
+        if not request.form['donation'] or not request.form['name']:
+            return render_template('add.jinja2', error="Please fill our all forms!")
         try:
             donor = Donor.select().where(Donor.name == request.form['name']).get()
         except Donor.DoesNotExist:
-            return render_template('add.jinja2', error="Donor Doesn't Exist in Database!!!")
-        donate = Donation(value=request.form['donation'], donor=donor.id)
+            return render_template('add.jinja2', error=f"Donor Doesn't Exist in Database!!!")
+        try:
+            donate = Donation(value=int(request.form['donation']), donor=donor.id)
+        except ValueError:
+            return render_template('add.jinja2', session=session, error="Please enter valid donation amount!")
         donate.save()
         return redirect(url_for('all'))
     elif request.method == 'GET':
