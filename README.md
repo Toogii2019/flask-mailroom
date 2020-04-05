@@ -3,13 +3,23 @@
 Running at [https://ancient-dawn-03303.herokuapp.com/](https://ancient-dawn-03303.herokuapp.com/).
 
 Note: 
+
 user1
+
 Username: admin 
+
 Password: adminpassword
 
 user2
+
 Username: guest
+
 Password: guespassword
+
+1. Did all 3 optional tasks 
+2. Also added validation for donation field (Check if its an integer number. Otherwise report error)
+3. Added "Logout" navigation + template
+4. Added Create New Donor in addition to "Add New Donation".
 
 ## Your Task
 
