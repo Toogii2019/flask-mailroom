@@ -33,6 +33,7 @@ def create():
         try:
             Donation(value=int(request.form['donation']), donor=new_donor.id).save()
         except ValueError:
+            Donor.get(Donor.name == new_donor.name).delete_instance()
             return render_template('create.jinja2', session=session, error=f"{request.form['donation']} not a valid donation amount!")
         donations = Donation.select()
         return render_template('donations.jinja2', msg=f"New Donor {new_donor.name} has been added successfully", donations=donations)
