@@ -2,6 +2,15 @@
 
 Running at [https://ancient-dawn-03303.herokuapp.com/](https://ancient-dawn-03303.herokuapp.com/).
 
+Note: 
+user1
+Username: admin 
+Password: adminpassword
+
+user2
+Username: guest
+Password: guespassword
+
 ## Your Task
 
 Your task is to:
