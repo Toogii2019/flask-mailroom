@@ -19,10 +19,6 @@ def check_login(func):
             return func(*args, **kwargs)
     return wrapper
 
-@app.route('/')
-def any_catcher():
-    return redirect(url_for('login'))
-
 @app.route('/create', methods=['GET','POST'])
 @check_login
 def create():
