@@ -2,7 +2,7 @@
 
 Running at [https://ancient-dawn-03303.herokuapp.com/](https://ancient-dawn-03303.herokuapp.com/).
 
-Note: 
+Note: You can login to below predefined accounts or you sign up and create your own account. 
 
 user1
 
@@ -20,6 +20,7 @@ Password: guespassword
 2. Also added validation for donation field (Check if its an integer number. Otherwise report error)
 3. Added "Logout" navigation + template
 4. Added Create New Donor in addition to "Add New Donation".
+5. Sign Up page to register a new user
 
 ## Your Task
 

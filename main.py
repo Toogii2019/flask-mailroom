@@ -19,6 +19,26 @@ def check_login(func):
             return func(*args, **kwargs)
     return wrapper
 
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        password_confirm = request.form['password_confirm']
+        if not username or not password or not password_confirm:
+            return render_template('sign_up.jinja2', error="Please fill up the form completely")
+        if password == password_confirm:
+            try:
+                User(user=username, password=pbkdf2_sha256.hash(password)).save()
+            except:
+                return render_template('sign_up.jinja2', error=f"User {username} already exist!!!")
+            else:
+                return redirect(url_for('login'))
+        else:
+            return render_template('sign_up.jinja2', error="The password you entered doesn't match!")
+    else:
+        return render_template('sign_up.jinja2')
+
 @app.route('/create', methods=['GET','POST'])
 @check_login
 def create():
