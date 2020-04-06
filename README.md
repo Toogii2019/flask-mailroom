@@ -1,6 +1,6 @@
 # Flask Mailroom Application
 
-Running at [https://ancient-dawn-03303.herokuapp.com/](https://ancient-dawn-03303.herokuapp.com/).
+Running at [http://ancient-dawn-03303.herokuapp.com](https://ancient-dawn-03303.herokuapp.com/).
 
 Note: You can login to below predefined accounts or you sign up and create your own account. 
 
