@@ -4,9 +4,19 @@
 
 {% block content %}
 <form method="POST">
-    {% if error %}<p>{{ error }}</p>{% endif %}
+    {% if error %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        {{error}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endif %}
+
     <label for="name-input">Username: </label><input id="name-input" type="text" name="username"><br>
     <label for="password-input">Password: </label><input id="password-input" type="password" name="password"><br>
     <input type="submit" value="Sign In">
+
+
 </form>
 {% endblock content %}

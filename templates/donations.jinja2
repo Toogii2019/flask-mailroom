@@ -3,10 +3,33 @@
 {% block subtitle %}Donations{% endblock subtitle %}
 
 {% block content %}
-<ul>
-    {% if msg %}<span class="msg"> {{msg}} </span><br>{% endif %}
+
+{% if msg %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  {{msg}}
+   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Donor name</th>
+      <th scope="col">Donation amount</th>
+    </tr>
+  </thead>
+  <tbody>
     {% for donation in donations %}
-        <li><b>{{ donation.donor.name }}</b>: {{ donation.value }}</li>
+    <tr>
+      <th scope="row">{{loop.index}}</th>
+      <td>{{ donation.donor.name }}</td>
+      <td>{{ donation.value }}</td>
+    </tr>
     {% endfor %}
-</ul>
+  </tbody>
+</table>
+
 {% endblock content %}

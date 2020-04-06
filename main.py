@@ -119,7 +119,7 @@ def add():
         except ValueError:
             return render_template('add.jinja2', session=session, error=f"{request.form['donation']} is not a valid donation amount!")
         donate.save()
-        return redirect(url_for('all'))
+        return render_template('donations.jinja2', msg=f"Donation for {donor.name} added successfully", donations=Donation.select())
     elif request.method == 'GET':
         return render_template('add.jinja2', session=session)
 

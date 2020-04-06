@@ -3,7 +3,14 @@
 {% block subtitle %}Create Donation{% endblock subtitle %}
 {% block content %}
 <form method="POST">
-    {% if error %}<span class="error"> {{error}} </span><br>{% endif %} <br>
+    {% if error %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        {{error}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endif %}
     <label for="name">Donor Name: </label><input type="text" id="name" name="name"><br>
     <label for="donation">Donation Amount: </label><input type="text" id="donation" name="donation"><br>
     <input type="submit" value="Create new donor">

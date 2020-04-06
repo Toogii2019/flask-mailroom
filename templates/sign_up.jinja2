@@ -4,10 +4,26 @@
 
 {% block content %}
 <form method="POST">
-    {% if error %}<p>{{ error }}</p>{% endif %}
-    <label for="name-input">Username: </label><input id="name-input" type="text" name="username"><br>
-    <label for="password-input">Password: </label><input id="password-input" type="password" name="password"><br>
-    <label for="password-input">Re-Enter Password: </label><input id="password-input" type="password" name="password_confirm"><br>
+    {% if error %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        {{error}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endif %}
+  <div class="form-group">
+    <label for="name-input">Username</label>
+    <input type="username" id="name-input" class="form-control mx-sm-3" type="text" name="username">
+
+    <label for="password">Password</label>
+    <input type="password" id="inputPassword6" class="form-control mx-sm-3" name="password">
+    <small id="passwordHelpInline" class="text-muted">
+      Must be 8-20 characters long.
+    </small> <br>
+    <label for="password">Confirm Password</label>
+    <input type="password" id="inputPassword6" class="form-control mx-sm-3" name="password_confirm"><br>
     <input type="submit" value="Sign Up">
+  </div>
 </form>
 {% endblock content %}
