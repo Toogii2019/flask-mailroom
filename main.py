@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import os
 import base64
 
@@ -104,16 +106,13 @@ def login():
 def home():
     return redirect(url_for('all'))
 
-@app.route('/add', methods=['GET', 'POST'])
+@app.route('/add/<name>', methods=['GET', 'POST'])
 @check_login
-def add():
+def add(name):
     if request.method == 'POST':
-        if not request.form['donation'] or not request.form['name']:
-            return render_template('add.jinja2', error="Please fill out all forms!")
-        try:
-            donor = Donor.select().where(Donor.name == request.form['name']).get()
-        except Donor.DoesNotExist:
-            return render_template('add.jinja2', error=f"Donor {request.form['name']} Doesn't Exist in Database!!!")
+        if not request.form['donation']:
+            return render_template('add.jinja2', error="Please fill out all fields!")
+        donor = Donor.select().where(Donor.name == name).get()
         try:
             donate = Donation(value=int(request.form['donation']), donor=donor.id)
         except ValueError:
@@ -121,7 +120,7 @@ def add():
         donate.save()
         return render_template('donations.jinja2', msg=f"Donation for {donor.name} added successfully", donations=Donation.select())
     elif request.method == 'GET':
-        return render_template('add.jinja2', session=session)
+        return render_template('add.jinja2', session=session, name=name)
 
 @app.route('/donations/')
 @check_login

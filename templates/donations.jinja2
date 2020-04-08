@@ -13,23 +13,18 @@
 </div>
 {% endif %}
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Donor name</th>
-      <th scope="col">Donation amount</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for donation in donations %}
-    <tr>
-      <th scope="row">{{loop.index}}</th>
-      <td>{{ donation.donor.name }}</td>
-      <td>{{ donation.value }}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
 
+<div class="row">
+{% for donation in donations %}
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{ donation.donor.name }}</h5>
+        <p class="card-text">{{ donation.value }}</p>
+        <a href="/add/{{ donation.donor.name }}" class="btn btn-primary">Add Donation</a>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+</div>
 {% endblock content %}
